@@ -1,0 +1,70 @@
+
+
+services:
+  # PostgreSQL Veritabanı
+  postgres:
+    image: postgres:15-alpine
+    container_name: vale_postgres
+    environment:
+      POSTGRES_USER: vale_user
+      POSTGRES_PASSWORD: vale_password
+      POSTGRES_DB: vale_system
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - vale_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vale_user -d vale_system"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Backend (FastAPI)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vale_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://vale_user:vale_password@postgres:5432/vale_system
+      WHATSAPP_TOKEN: ${WHATSAPP_TOKEN:-}
+      WHATSAPP_PHONE_NUMBER_ID: ${WHATSAPP_PHONE_NUMBER_ID:-}
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__
+    networks:
+      - vale_network
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Frontend (React)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vale_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - vale_network
+    environment:
+      - REACT_APP_API_URL=http://localhost:8001/api/v1
+    command: npm start
+
+volumes:
+  postgres_data:
+
+networks:
+  vale_network:
+    driver: bridge

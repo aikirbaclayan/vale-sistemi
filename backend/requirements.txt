@@ -1,0 +1,45 @@
+# FastAPI ve temel bağımlılıklar
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Veritabanı
+sqlmodel==0.0.14
+psycopg2-binary==2.9.9
+alembic==1.13.0
+apscheduler==3.10.4
+
+# HTTP istekleri
+httpx==0.25.2
+requests==2.31.0
+
+# Çevre değişkenleri
+python-dotenv==1.0.0
+
+# Doğrulama
+pydantic==2.5.0
+pydantic-settings==2.1.0
+email-validator==2.1.0
+
+# Güvenlik
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Dosya yükleme
+aiofiles==23.2.1
+pillow==10.1.0
+
+# Tarih/saat
+python-dateutil==2.8.2
+
+# Logging
+structlog==23.2.0
+
+# WhatsApp Business API
+twilio==8.10.3
+
+# Test (opsiyonel)
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.2
