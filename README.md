@@ -1,228 +1,170 @@
 # Vale Yönetim Sistemi
 
-Restoran ve işletmeler için akıllı vale yönetim sistemi. Müşteriler masadan araçlarını çağırabilir, valeler araçları kanban tarzı bir panelde yönetebilir, işletme sahipleri ise detaylı raporlara erişebilir.
+**Smart Valet Management System for Restaurants & Businesses — Turkey**
 
-## Özellikler
+[![FastAPI](https://img.shields.io/badge/FastAPI-Python_3.11-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](./LICENSE)
 
-### Müşteri Arayüzü (QR Sayfası)
-- Plaka doğrulama sistemi
-- 5/10/15 dakika seçenekleri
-- Anlık geri bildirim
-- Mobil uyumlu PWA
+---
 
-### Vale Paneli
-- Kanban tarzı durum yönetimi
-- Fotoğrafla araç tanıma
-- Geri sayım halkası
-- Loyalty sistemi (sık müşteri tanıma)
-- Gizli vale notları
-- Offline mod desteği
+## Overview
 
-### İşletme Sahibi Paneli
-- Günlük metrikler
-- Saatlik yoğunluk haritası
-- CSV rapor indirme
-- WhatsApp günlük özeti
-- Plaka düzeltme
+Vale Yönetim Sistemi is a real-time valet management platform built for restaurants and hospitality businesses. Customers scan a QR code from their table to request their vehicle, valet staff manage all active vehicles through a kanban-style dashboard, and business owners access daily metrics and reports — all without phone calls or paper tickets.
 
-## Teknoloji Yığını
+## Features
 
-### Frontend
-- **React 18** + **TypeScript**
-- **Tailwind CSS** (Responsive tasarım)
-- **PWA** (Progressive Web App)
-- **Axios** (HTTP istemcisi)
+**Customer Interface (QR Page)**
+- Plate number validation against the day's registered vehicles
+- Estimated pickup time selection — 5, 10, or 15 minutes
+- Optional WhatsApp confirmation message
+- Mobile-first PWA, works offline
 
-### Backend
-- **FastAPI** + **Python 3.11**
-- **SQLModel** (ORM)
-- **PostgreSQL** (Veritabanı)
-- **WhatsApp Business API**
+**Valet Dashboard**
+- Kanban board: Parked → Requested → Preparing → Ready → Delivered
+- Countdown ring with audio alert per vehicle card
+- Vehicle photo capture from camera or gallery
+- Quick 3-digit plate search
+- Hidden valet notes per vehicle
+- Loyalty indicator — customers with 3+ visits in 90 days
+- 5-second polling for real-time updates; offline queue via IndexedDB
 
-### Deployment
-- **Docker** + **Docker Compose**
-- **Nginx** (Reverse proxy)
-- **SSL/HTTPS** desteği
+**Owner Dashboard**
+- Daily metrics: vehicles in, out, currently parked
+- Hourly heatmap
+- CSV report export
+- WhatsApp daily summary — scheduled via APScheduler
+- Plate correction tool
 
-## Kurulum
+## Tech Stack
 
-### Gereksinimler
-- Docker ve Docker Compose
-- WhatsApp Business API hesabı (opsiyonel)
+| Layer | Technology |
+|---|---|
+| Backend | FastAPI, Python 3.11, Uvicorn |
+| Frontend | React 18, TypeScript, Tailwind CSS |
+| Database | PostgreSQL 15, SQLModel (ORM) |
+| Messaging | WhatsApp Business API (Meta Cloud API) |
+| Scheduler | APScheduler |
+| Infrastructure | Docker, Docker Compose |
 
-### Adım 1: Projeyi İndir
+## Getting Started
+
 ```bash
 git clone https://github.com/aikirbaclayan/vale-sistemi.git
 cd vale-sistemi
-```
 
-### Adım 2: Environment Dosyasını Oluştur
-```bash
+# Copy and configure environment
 cp backend/env_example.txt backend/.env
-```
+# Edit backend/.env with your values
 
-Backend `.env` dosyasını düzenleyin:
-```env
-DATABASE_URL=postgresql://vale_user:vale_password@postgres:5432/vale_system
-WHATSAPP_TOKEN=your_whatsapp_business_api_token
-WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id
-WHATSAPP_WEBHOOK_VERIFY_TOKEN=your_webhook_verify_token
-OWNER_PHONE=your_phone_number_with_country_code
-SECRET_KEY=your-strong-secret-key
-```
+# Start the database
+docker-compose up -d postgres
 
-### Adım 3: Uygulamayı Başlat
-```bash
-docker-compose up -d
-```
+# Start the backend
+cd backend
+python -m venv venv
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Linux / macOS
+pip install -r requirements.txt
+uvicorn main:app --reload
 
-### Adım 4: Erişim
-- **Müşteri Sayfası**: http://localhost:3000
-- **Vale Paneli**: http://localhost:3000/valet
-- **İşletme Paneli**: http://localhost:3000/owner
-- **API Dokümantasyonu**: http://localhost:8000/docs
-
-## Kullanım
-
-### 1. Vale Tarafından Araç Kaydı
-1. Vale paneline girin (`/valet`)
-2. Yeni araç ekle butonuna tıklayın
-3. Plaka ve konum bilgilerini girin
-4. Araç fotoğrafını çekin (opsiyonel)
-
-### 2. Müşteri Araç Çağrısı
-1. QR kodu okutarak sayfaya erişin
-2. Plaka numaranızı girin
-3. Kaç dakika içinde istediğinizi seçin
-4. Onay mesajını bekleyin
-
-### 3. Vale Araç Hazırlama
-1. Vale panelinde çağrılan aracı görün
-2. "Hazırlamaya Başla" → "Hazır" → "Teslim" akışını takip edin
-3. Geri sayım halkasını izleyin
-4. Gerekirse vale notu ekleyin
-
-### 4. İşletme Raporlama
-1. İşletme paneline girin (`/owner`)
-2. Günlük metrikleri görüntüleyin
-3. CSV rapor indirin
-4. WhatsApp özeti gönderin
-
-## Yapılandırma
-
-### WhatsApp Business API Kurulumu
-1. [Meta for Developers](https://developers.facebook.com/) hesabı oluşturun
-2. WhatsApp Business API'ye başvurun
-3. Phone Number ID ve Access Token alın
-4. Webhook URL'ini ayarlayın: `https://yourdomain.com/api/v1/whatsapp/webhook`
-
-### SSL Sertifikası (Production)
-```bash
-mkdir -p nginx/ssl
-cp your-cert.pem nginx/ssl/cert.pem
-cp your-key.pem nginx/ssl/key.pem
-```
-
-## Geliştirme
-
-### Frontend
-```bash
+# Start the frontend (new terminal)
 cd frontend
 npm install
 npm start
 ```
 
-### Backend
-```bash
-cd backend
-python -m venv venv
-# Windows:
-venv\Scripts\activate
-# Linux/Mac:
-source venv/bin/activate
+| Service | URL |
+|---|---|
+| Customer Page | http://localhost:3000 |
+| Valet Dashboard | http://localhost:3000/valet |
+| Owner Dashboard | http://localhost:3000/owner |
+| API / Swagger Docs | http://localhost:8000/docs |
 
-pip install -r requirements.txt
-uvicorn main:app --reload
+Or start everything at once with Docker Compose:
+
+```bash
+docker-compose up -d
 ```
 
-### Veritabanı Migration
-```bash
-docker exec -it vale_backend bash
-alembic revision --autogenerate -m "migration_adi"
-alembic upgrade head
+## Environment Variables
+
+Copy `backend/env_example.txt` to `backend/.env` and fill in:
+
+```env
+DATABASE_URL=postgresql://vale_user:vale_password@localhost:5432/vale_system
+SECRET_KEY=your-strong-secret-key
+
+# WhatsApp Business API (optional)
+WHATSAPP_TOKEN=your_access_token
+WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id
+WHATSAPP_WEBHOOK_VERIFY_TOKEN=your_webhook_token
+OWNER_PHONE=905XXXXXXXXX
+
+# Scheduler
+DAILY_SUMMARY_TIME=22:30
 ```
+
+> **Never commit your `.env` file.** Use `env_example.txt` as the template.
+
+## Project Structure
+
+```
+vale-sistemi/
+├── backend/
+│   ├── app/
+│   │   ├── api/api_v1/endpoints/   # customer, valet, owner, whatsapp
+│   │   ├── core/                   # config, database
+│   │   ├── models/                 # SQLModel models
+│   │   └── services/               # WhatsApp service
+│   ├── alembic/                    # database migrations
+│   ├── main.py
+│   └── requirements.txt
+├── frontend/src/
+│   ├── components/                 # CountdownCircle, PlateInput, StatusChip…
+│   ├── hooks/                      # useOffline
+│   ├── pages/                      # CustomerPage, ValetDashboard, OwnerDashboard
+│   ├── services/                   # axios API client
+│   └── utils/                      # offline queue (IndexedDB)
+├── docs/
+├── docker-compose.yml
+└── README.md
+```
+
+## Vehicle State Machine
+
+```
+PARKED → REQUESTED → PREPARING → READY → DELIVERED
+```
+
+Business rules:
+- Only plates registered today are accepted on the customer page
+- A vehicle can only be requested when its status is `PARKED`
+- Duplicate plates are rejected at both the API and database level
+- Loyalty flag is computed automatically: 3+ visits in the last 90 days
 
 ## API Endpoints
 
-### Müşteri
-- `GET /api/v1/customer/validate-plate/{plate}` - Plaka doğrulama
-- `POST /api/v1/customer/request-vehicle` - Araç çağrı talebi
-- `GET /api/v1/customer/vehicle-status/{plate}` - Araç durumu
+| Group | Method | Path |
+|---|---|---|
+| Customer | GET | `/api/v1/customer/validate-plate/{plate}` |
+| Customer | POST | `/api/v1/customer/request-vehicle` |
+| Customer | GET | `/api/v1/customer/vehicle-status/{plate}` |
+| Valet | GET | `/api/v1/valet/vehicles` |
+| Valet | POST | `/api/v1/valet/vehicles` |
+| Valet | PUT | `/api/v1/valet/vehicles/{id}/status` |
+| Valet | POST | `/api/v1/valet/vehicles/{id}/deliver` |
+| Valet | POST | `/api/v1/valet/vehicles/{id}/photo` |
+| Owner | GET | `/api/v1/owner/metrics` |
+| Owner | GET | `/api/v1/owner/report/{date}` |
+| Owner | POST | `/api/v1/owner/send-daily-summary` |
+| Owner | PUT | `/api/v1/owner/vehicles/{id}/correct-plate` |
 
-### Vale
-- `GET /api/v1/valet/vehicles` - Tüm araçları listele
-- `POST /api/v1/valet/vehicles` - Yeni araç ekle
-- `PUT /api/v1/valet/vehicles/{id}/status` - Durum güncelle
-- `POST /api/v1/valet/vehicles/{id}/deliver` - Teslim et
-- `POST /api/v1/valet/vehicles/{id}/photo` - Fotoğraf yükle
+Full interactive docs at `http://localhost:8000/docs`.
 
-### İşletme
-- `GET /api/v1/owner/metrics` - Günlük metrikler
-- `GET /api/v1/owner/report/{date}` - CSV rapor
-- `POST /api/v1/owner/send-daily-summary` - WhatsApp özeti
-- `PUT /api/v1/owner/vehicles/{id}/correct-plate` - Plaka düzelt
+## License
 
-## Güvenlik
-
-- Rate limiting
-- CORS yapılandırması
-- SQL injection koruması (SQLModel)
-- XSS koruması
-- Dosya yükleme güvenliği
-
-> **Önemli:** `.env` dosyanızı asla Git'e yüklemeyin. `env_example.txt` dosyasını şablon olarak kullanın.
-
-## Sistem Kuralları
-
-### Plaka Doğrulama
-- Sadece o gün sistemde kayıtlı plakalar kabul edilir
-- Plaka normalizasyonu: boşluklar ve tireler kaldırılır
-- Türk plaka formatı kontrolü
-
-### Durum Geçişleri
-```
-PARKTA → ÇAĞRILDI → HAZIRLANIYOR → HAZIR → TESLİM
-```
-
-### Loyalty Sistemi
-- Son 90 günde 3+ ziyaret = loyalty müşteri
-- Otomatik hesaplama ve gösterim
-
-## Sorun Giderme
-
-### Docker Sorunları
-```bash
-docker-compose down
-docker-compose up -d
-
-# Logları kontrol et
-docker-compose logs -f backend
-docker-compose logs -f frontend
-```
-
-### Veritabanı Sorunları
-```bash
-docker exec -it vale_postgres psql -U vale_user -d vale_system
-\dt
-```
-
-### Frontend Build Sorunları
-```bash
-cd frontend
-rm -rf node_modules package-lock.json
-npm install
-```
-
-## Lisans
-
-Bu proje MIT lisansı altında lisanslanmıştır.
+[MIT License](./LICENSE)
