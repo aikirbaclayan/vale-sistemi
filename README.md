@@ -13,7 +13,7 @@
 
 ## Overview
 
-Vale Yönetim Sistemi is a real-time valet management platform built for restaurants and hospitality businesses. Customers scan a QR code from their table to request their vehicle, valet staff manage all active vehicles through a kanban-style dashboard, and business owners access daily metrics and reports — all without phone calls or paper tickets.
+A real-time valet management platform built for restaurants and hospitality businesses. Customers scan a QR code from their table to request their vehicle, valet staff manage all active vehicles through a kanban-style dashboard, and business owners access daily metrics and reports — all without phone calls or paper tickets.
 
 ## Features
 
