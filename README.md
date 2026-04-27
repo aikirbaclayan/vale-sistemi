@@ -1,6 +1,6 @@
-# Vale Yönetim Sistemi
+# Valet Management System
 
-**Smart Valet Management System for Restaurants & Businesses — Turkey**
+**Smart Valet Management Platform for Restaurants & Businesses — Turkey**
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-Python_3.11-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
