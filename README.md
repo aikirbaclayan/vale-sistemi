@@ -53,8 +53,8 @@ A real-time valet management platform built for restaurants and hospitality busi
 ## Getting Started
 
 ```bash
-git clone https://github.com/aikirbaclayan/vale-sistemi.git
-cd vale-sistemi
+git clone https://github.com/umitaltinozzz/valet-management.git
+cd valet-management
 
 # Copy and configure environment
 cp backend/env_example.txt backend/.env
@@ -113,7 +113,7 @@ DAILY_SUMMARY_TIME=22:30
 ## Project Structure
 
 ```
-vale-sistemi/
+valet-management/
 ├── backend/
 │   ├── app/
 │   │   ├── api/api_v1/endpoints/   # customer, valet, owner, whatsapp
