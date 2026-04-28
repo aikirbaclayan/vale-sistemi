@@ -15,6 +15,10 @@
 
 A real-time valet management platform built for restaurants and hospitality businesses. Customers scan a QR code from their table to request their vehicle, valet staff manage all active vehicles through a kanban-style dashboard, and business owners access daily metrics and reports — all without phone calls or paper tickets.
 
+## Project Status
+
+Product prototype / portfolio snapshot. The public repository documents the QR-based valet workflow and management dashboard; active customer-specific variants or deployments may remain private.
+
 ## Features
 
 **Customer Interface (QR Page)**
